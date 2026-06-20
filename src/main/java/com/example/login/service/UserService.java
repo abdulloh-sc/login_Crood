@@ -4,6 +4,8 @@ import com.example.login.entity.User;
 import com.example.login.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -32,4 +34,33 @@ public class UserService {
         repo.save(new User(null, username, password));
         return true;
     }
+
+    public List<User> findAll(){
+        return repo.findAll();
+    }
+    public User findById(Long id){
+        return repo.findById(id);
+    }
+
+    public User create(String username, String password){
+        return repo.save(new User(null,username,password));
+    }
+
+    public User update(Long id, String username, String password){
+        return repo.update(id,username,password);
+    }
+
+    public boolean delete(Long id){
+        return repo.deleteById(id);
+    }
+
+
+
+
+
+
+
+
+
+
 }

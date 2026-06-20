@@ -3,7 +3,9 @@ package com.example.login.repository;
 import com.example.login.entity.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Repository
 public class UserRepository {
@@ -31,4 +33,55 @@ public class UserRepository {
         nextId = nextId + 1;
         return toSave;
     }
+
+    public List<User> findAll(){
+        return new ArrayList<>(data.values());
+    }
+
+    public User findById(Long id){
+        for (User u : data.values()){
+            if (u.getId().equals(id)){
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteById(Long id){
+        User find = findById(id);
+        if (find == null){
+            return false;
+        }
+        data.remove(find.getUsername());
+        return true;
+    }
+
+    public User update(Long id, String username, String password){
+        User find = findById(id);
+        if (find == null){
+            return null;
+        }
+        data.remove(find.getUsername());
+        User updated = new User(id,username,password);
+        data.put(username,updated);
+        return updated;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
