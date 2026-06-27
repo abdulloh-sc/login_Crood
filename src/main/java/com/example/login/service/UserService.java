@@ -1,9 +1,11 @@
 package com.example.login.service;
 
+import com.example.login.dto.UserResponse;
 import com.example.login.entity.User;
 import com.example.login.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,8 +37,13 @@ public class UserService {
         return true;
     }
 
-    public List<User> findAll(){
-        return repo.findAll();
+    public List<UserResponse> findAll(){
+        List<User> users = repo.findAll();
+        List<UserResponse> result = new ArrayList<>();
+        for (User u : users){
+            result.add(response(u));
+        }
+        return result;
     }
     public User findById(Long id){
         return repo.findById(id);
@@ -52,6 +59,10 @@ public class UserService {
 
     public boolean delete(Long id){
         return repo.deleteById(id);
+    }
+
+    public UserResponse response(User user){
+        return new UserResponse(user.getId(), user.getUsername());
     }
 
 

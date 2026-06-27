@@ -1,5 +1,6 @@
 package com.example.login.repository;
 
+import com.example.login.dto.UserResponse;
 import com.example.login.entity.User;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,7 @@
 package com.example.login.controller;
 
 import com.example.login.dto.LoginRequest;
+import com.example.login.dto.UserResponse;
 import com.example.login.entity.User;
 import com.example.login.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,17 @@ public class UserController {
 
 
     @GetMapping
-    public List<User> getAll(){
+    public List<UserResponse> getAll(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getOne(Long id){
+    public ResponseEntity<Object> getOne(Long id){
         User user = service.findById(id);
         if (user == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(404).body("not found");
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(service.response(user));
     }
 
     @PostMapping()
@@ -40,12 +41,12 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody LoginRequest request){
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody LoginRequest request){
         User updated = service.update(id,request.getUsername(),request.getPassword());
         if (updated == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(service.response(updated));
     }
 
     @DeleteMapping("/{id}")
